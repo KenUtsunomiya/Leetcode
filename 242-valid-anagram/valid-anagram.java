@@ -4,21 +4,21 @@ class Solution {
             return false;
         }
 
-        Map<Character, Integer> charToCountS = new HashMap<>();
-        Map<Character, Integer> charToCountT = new HashMap<>();
-        int idx = 0;
-        while (idx < s.length()) {
-            charToCountS.put(s.charAt(idx), charToCountS.getOrDefault(s.charAt(idx), 0) + 1);
-            charToCountT.put(t.charAt(idx), charToCountT.getOrDefault(t.charAt(idx), 0) + 1);
-            idx++;
+        Map<Character, Integer> charToCount = new HashMap<>();
+        for (char c : s.toCharArray()) {
+            charToCount.put(c, charToCount.getOrDefault(c, 0) + 1);
         }
-
-        for (char key : charToCountS.keySet().stream().toList()) {
-            if (!charToCountS.get(key).equals(charToCountT.getOrDefault(key, 0))) {
+        
+        for (char c : t.toCharArray()) {
+            if (!charToCount.containsKey(c)) {
                 return false;
+            }
+            charToCount.put(c, charToCount.get(c) - 1);
+            if (charToCount.get(c) == 0) {
+                charToCount.remove(c);
             }
         }
         
-        return true;
+        return charToCount.isEmpty();
     }
 }
